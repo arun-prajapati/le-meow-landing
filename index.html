@@ -357,7 +357,7 @@
         display: none;
       }
 
-      /* ---------- 3-Layer Hero: Video -> A Layer -> Content ---------- */
+      /* ---------- Hero ---------- */
       .hero {
         position: relative;
         min-height: 100vh;
@@ -370,7 +370,7 @@
         background: #0d0a07;
       }
 
-      /* LAYER 1: VIDEO (Adapts to 100% of hero height) */
+      /* Hero video */
       .hero-video {
         position: absolute;
         top: 0;
@@ -385,7 +385,7 @@
         pointer-events: none;
       }
 
-      /* LAYER 2: A LAYER (Adapts to 100% of hero height) */
+      /* Hero overlay */
       .hero-layer {
         position: absolute;
         top: 0;
@@ -413,7 +413,7 @@
           );
       }
 
-      /* LAYER 3: CONTENT (Top Layer) */
+      /* Hero content */
       .hero .wrap {
         position: relative;
         z-index: 2;
@@ -543,7 +543,7 @@
       }
 
       /* Mobile uses its own composition: video first, then the hero copy. */
-      .mobile-hero {
+      .mobile-hero-video {
         display: none;
       }
 
@@ -563,7 +563,7 @@
         padding: 14px;
       }
 
-      /* ---------- evolution ---------- */
+      /* ---------- App features ---------- */
       .evo {
         display: grid;
         grid-template-columns: 1fr auto 1fr;
@@ -2011,10 +2011,15 @@
         .m-menu {
           top: 64px;
         }
-        .hero--desktop {
+        .hero--responsive {
+          min-height: 0;
+          padding: 0;
+        }
+        .hero--responsive > .hero-video,
+        .hero--responsive > .hero-layer {
           display: none;
         }
-        .mobile-hero {
+        .hero--responsive {
           display: block;
           background:
             radial-gradient(
@@ -2027,7 +2032,6 @@
         .mobile-hero-video {
           display: block;
           width: 100%;
-          /* height: 38svh; */
           min-height: 230px;
           max-height: 360px;
           margin-top: 64px;
@@ -2039,11 +2043,11 @@
           padding: 46px 10px 58px;
           text-align: center;
         }
-        .mobile-hero .hero-copy {
+        .hero--responsive .hero-copy {
           margin: 0 auto;
           position: relative;
         }
-        .mobile-hero .hero-copy::before {
+        .hero--responsive .hero-copy::before {
           content: "";
           display: block;
           width: 44px;
@@ -2056,26 +2060,26 @@
             transparent
           );
         }
-        .mobile-hero .hero-capsule {
+        .hero--responsive .hero-capsule {
           color: var(--deep-gold);
           background: rgba(198, 145, 46, 0.08);
           border-color: rgba(198, 145, 46, 0.22);
           margin-bottom: 18px;
         }
-        .mobile-hero .hero-capsule .capsule-dot {
+        .hero--responsive .hero-capsule .capsule-dot {
           background: var(--gold);
         }
-        .mobile-hero h1 {
+        .hero--responsive h1 {
           font-size: clamp(38px, 9.5vw, 54px);
           margin: 12px 0 18px;
           line-height: 1.03;
           color: var(--ink);
           text-shadow: none;
         }
-        .mobile-hero h1 .gold-italic {
+        .hero--responsive h1 .gold-italic {
           color: var(--gold);
         }
-        .mobile-hero p.lead {
+        .hero--responsive p.lead {
           font-size: 15.5px;
           max-width: 31ch;
           margin: 0 auto 28px;
@@ -2083,25 +2087,25 @@
           color: var(--muted);
           text-shadow: none;
         }
-        .mobile-hero .hero-ctas {
+        .hero--responsive .hero-ctas {
           gap: 10px;
           margin-bottom: 28px;
           justify-content: center;
         }
-        .mobile-hero .btn-hero-primary,
-        .mobile-hero .btn-hero-secondary {
+        .hero--responsive .btn-hero-primary,
+        .hero--responsive .btn-hero-secondary {
           min-height: 48px;
           padding: 12px 22px;
           font-size: 13.5px;
           width: 100%;
           justify-content: center;
         }
-        .mobile-hero .btn-hero-secondary {
+        .hero--responsive .btn-hero-secondary {
           color: var(--ink);
           background: #fff;
           border-color: var(--hairline);
         }
-        .mobile-hero .hero-checklist {
+        .hero--responsive .hero-checklist {
           width: min(100%, 310px);
           margin: 0 auto;
           flex-direction: column;
@@ -2111,7 +2115,7 @@
           color: var(--muted);
           border-top-color: var(--hairline);
         }
-        .mobile-hero .hero-checklist span {
+        .hero--responsive .hero-checklist span {
           justify-content: center;
         }
         .split .phone {
@@ -2408,9 +2412,9 @@
       </nav>
     </header>
 
-    <!-- ══════════ HERO (Video -> A Layer -> Content) ══════════ -->
-    <section class="hero hero--desktop" id="top">
-      <!-- 1. VIDEO (Bottom Layer) -->
+    <!-- HERO -->
+    <section class="hero hero--responsive" id="top" aria-labelledby="hero-heading">
+      <!-- Hero video -->
       <video
         id="heroBgVideo"
         class="hero-video"
@@ -2429,53 +2433,6 @@
         <source src="images/herobgvid-en.mp4" type="video/mp4" />
       </video>
 
-      <!-- 2. A LAYER (Middle Dark Tint Layer - No White Fade) -->
-      <div class="hero-layer" aria-hidden="true"></div>
-
-      <!-- 3. CONTENT (Top Layer) -->
-      <div class="wrap">
-        <div class="hero-copy">
-          <div class="hero-capsule rv">
-            <span class="capsule-dot"></span>
-            <span>Singapore · Lifestyle &amp; Rewards</span>
-          </div>
-          <h1 class="display rv rv-d1">
-            Your Life.<br /><span class="gold-italic">Personalised.</span
-            ><br />Rewarded.
-          </h1>
-          <p class="lead rv rv-d2">
-            Discover what you love, book what you need, and get rewarded every
-            time you spend — all inside one beautifully connected lifestyle app.
-          </p>
-          <div class="hero-ctas rv rv-d3">
-            <a href="#download" class="btn-hero-primary">Download Le Meow</a>
-            <a href="#whats-new" class="btn-hero-secondary">
-              <span>See What's New</span>
-              <svg
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
-            </a>
-          </div>
-          <div class="hero-checklist rv rv-d4">
-            <span><i class="check">✓</i> 1,000+ Trusted services</span>
-            <span><i class="check">✓</i> 19 Ways to pay</span>
-            <span><i class="check">✓</i> 24/7 WhatsApp support</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="mobile-hero" aria-labelledby="mobile-hero-heading">
       <video
         id="heroMobileVideo"
         class="mobile-hero-video"
@@ -2494,15 +2451,19 @@
       >
         <source src="images/herobgvid.mp4" type="video/mp4" />
       </video>
+
+      <!-- Hero overlay -->
+      <div class="hero-layer" aria-hidden="true"></div>
+
+      <!-- Hero content -->
       <div class="wrap mobile-hero-copy">
         <div class="hero-copy">
           <div class="hero-capsule rv">
             <span class="capsule-dot"></span>
             <span>Singapore · Lifestyle &amp; Rewards</span>
           </div>
-          <h1 class="display rv rv-d1" id="mobile-hero-heading">
-            Your Life.<br /><span class="gold-italic">Personalised.</span
-            ><br />Rewarded.
+          <h1 class="display rv rv-d1" id="hero-heading">
+            Your Life.<br /> <span class="gold-italic">Personalised.</span><br /> Rewarded.
           </h1>
           <p class="lead rv rv-d2">
             Discover what you love, book what you need, and get rewarded every
@@ -2536,28 +2497,29 @@
       </div>
     </section>
 
-    <!-- ══════════ EVOLUTION ══════════ -->
+
+
+    <!-- APP FEATURES -->
     <section class="section" id="whats-new">
       <div class="wrap">
         <div class="sec-head rv">
-          <span class="eyebrow center">From Booking App to Ecosystem</span>
+          <span class="eyebrow center">Discover, book and enjoy more</span>
           <h2 class="display">
             More Than <span class="gold-i">A Booking App.</span>
           </h2>
           <p>
-            Phase 2 turns Le Meow into a personalised lifestyle ecosystem —
-            helping you discover, book, spend, earn, gift and explore in one
-            place.
+            Find services you love, book appointments, manage your wallet and
+            enjoy membership rewards, all in one place.
           </p>
         </div>
         <div class="evo">
           <div class="evo-col past rv">
-            <span class="evo-tag past">Phase 1</span>
+            <span class="evo-tag past">Discover &amp; book</span>
             <div class="phone">
               <div class="phone-scr">
                 <img
-                  src="./images/phone-ss/home-old.png"
-                  alt="Le Meow Phase 1 home screen with service categories"
+                  src="./images/phone-ss/home.png"
+                  alt="Le Meow home screen for discovering services and booking appointments"
                   loading="lazy"
                 />
               </div>
@@ -2565,7 +2527,7 @@
             <p class="evo-list">Service booking · Categories · Transactions</p>
           </div>
           <div class="evo-arrow rv rv-d1" aria-hidden="true">
-            <span class="word">becomes</span>
+            <span class="word">and</span>
             <svg
               width="52"
               height="22"
@@ -2578,12 +2540,12 @@
             </svg>
           </div>
           <div class="evo-col rv rv-d2">
-            <span class="evo-tag now">Phase 2</span>
+            <span class="evo-tag now">Rewards &amp; wallet</span>
             <div class="phone">
               <div class="phone-scr">
                 <img
-                  src="./images/phone-ss/home.png"
-                  alt="Le Meow Phase 2 upgraded home with discovery, wallet and membership"
+                  src="./images/phone-ss/wallet.png"
+                  alt="Le Meow wallet, rewards and membership screen"
                   loading="lazy"
                 />
               </div>
@@ -3868,7 +3830,7 @@
     <section class="section">
       <div class="wrap">
         <div class="sec-head rv">
-          <span class="eyebrow center">New in Phase 2</span>
+          <span class="eyebrow center">Explore more with Le Meow</span>
           <h2 class="display">
             One Ecosystem. <span class="gold-i">More Reasons To Stay.</span>
           </h2>
