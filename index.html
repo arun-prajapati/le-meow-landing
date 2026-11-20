@@ -1924,6 +1924,31 @@
           grid-template-columns: repeat(3, 1fr);
         }
       }
+      /* Nav: 9 links need ~1180px; below that use the burger menu */
+      .nav-links a, .nav .btn { white-space: nowrap; }
+      @media (max-width: 1180px) {
+        .nav-links { display: none; }
+        .burger { display: flex; }
+        .m-menu {
+          position: fixed;
+          top: 72px;
+          left: 0;
+          right: 0;
+          z-index: 99;
+          background: #fff;
+          border-bottom: 1px solid var(--hairline-soft);
+          padding: 10px 24px 26px;
+          flex-direction: column;
+          gap: 2px;
+        }
+        .m-menu.open { display: flex; }
+        .m-menu a {
+          padding: 13px 4px;
+          font-size: 16px;
+          border-bottom: 1px solid var(--hairline-soft);
+          color: var(--ink);
+        }
+      }
       @media (max-width: 900px) {
         .nav-links {
           display: none;
@@ -2386,6 +2411,7 @@
           <a href="#wallet">Wallet</a>
           <a href="#gift">Gift</a>
           <a href="#whats-new">What's New</a>
+          <a href="/meow-solutions/">Meow Solutions</a>
           <a href="#contact">Contact</a>
         </nav>
         <div style="display: flex; align-items: center; gap: 10px">
@@ -2408,6 +2434,7 @@
         <a href="#wallet">Wallet</a>
         <a href="#gift">Gift</a>
         <a href="#whats-new">What's New</a>
+        <a href="/meow-solutions/">Meow Solutions</a>
         <a href="#contact">Contact</a>
       </nav>
     </header>
@@ -4195,6 +4222,7 @@
             <a href="#membership">Membership</a>
             <a href="#wallet">Wallet</a>
             <a href="#gift">Gift Vouchers</a>
+            <a href="/meow-solutions/">Meow Solutions</a>
             <a href="#contact">Contact</a>
             <a href="#download">Download</a>
             <a href="privacy-policy.html">Privacy Policy</a>
