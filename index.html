@@ -840,185 +840,474 @@
       }
 
       /* ---------- membership ---------- */
+      #membership {
+        --m-paper: #ffffff;
+        --m-cream: #fbf6eb;
+        --m-sand: #f4e9d6;
+        --m-line: #e9decb;
+        --m-ink: #1e160e;
+        --m-muted: #685d50;
+        --m-gold: #8b5c1c;
+        --m-icon: #a87418;
+        --m-hair: #e3c77f;
+        --m-fill: #e3c77f;
+        --m-fill-hover: #d9b866;
+        --m-dark: #1e1a15;
+        --m-dark-line: #3a3128;
+        --m-on-dark: #efe4d0;
+        --m-gold-on-dark: #f1cd87;
+      }
+      #membership .sec-head {
+        margin-bottom: 40px;
+      }
+
+      /* tabs */
       .tier-nav {
-        display: flex;
-        justify-content: center;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin-bottom: 48px;
+        display: grid;
+        grid-template-columns: repeat(var(--n, 5), minmax(0, 1fr));
+        gap: 4px;
+        width: min(100%, 520px);
+        margin: 0 auto 24px;
+        padding: 4px;
+        border: 1px solid var(--m-line);
+        border-radius: 999px;
+        background: var(--m-paper);
       }
       .tier-btn {
-        padding: 12px 30px;
+        position: relative;
+        min-height: 44px;
+        padding: 0 8px;
+        border: 0;
         border-radius: 999px;
-        font-size: 13px;
+        background: transparent;
+        color: var(--m-muted);
+        font-family: "Jost", sans-serif;
+        font-size: 12px;
         font-weight: 600;
-        letter-spacing: 0.2em;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
-        border: 1px solid var(--hairline);
-        color: var(--muted);
-        background: #fff;
-        transition: all 0.35s var(--ease);
+        white-space: nowrap;
+        cursor: pointer;
+        transition:
+          color 0.18s ease-out,
+          background-color 0.18s ease-out;
       }
       .tier-btn:hover {
-        transform: translateY(-2px);
+        color: var(--m-ink);
       }
       .tier-btn[aria-selected="true"] {
-        color: #fff;
-        border-color: transparent;
+        background: var(--m-sand);
+        color: var(--m-ink);
       }
-      .tier-btn.t-white[aria-selected="true"] {
-        background: linear-gradient(135deg, #d9cdb6, #b7a784);
-        color: #fff;
-      }
-      .tier-btn.t-silver[aria-selected="true"] {
-        background: linear-gradient(135deg, #b9bec6, #8a9099);
-      }
-      .tier-btn.t-gold[aria-selected="true"] {
-        background: linear-gradient(135deg, var(--pale-gold), var(--deep-gold));
-      }
-      .tier-btn.t-black[aria-selected="true"] {
-        background: linear-gradient(135deg, #2a2620, #0f0e0c);
-      }
-      .tier-stage {
-        max-width: 900px;
-        margin: 0 auto;
-        position: relative;
-      }
-      .tier-card {
-        border-radius: var(--r-hero);
-        padding: 52px 56px;
-        display: none;
-        border: 1px solid var(--hairline);
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 30px 80px rgba(30, 22, 14, 0.14);
-        animation: tierIn 0.55s var(--ease);
-      }
-      @keyframes tierIn {
-        from {
-          opacity: 0;
-          transform: translateY(18px) scale(0.985);
-        }
-        to {
-          opacity: 1;
-          transform: none;
-        }
-      }
-      .tier-card.active {
-        display: block;
-      }
-      .tier-card .shimmer {
+      .tier-btn::after {
+        content: "";
         position: absolute;
-        inset: 0;
-        pointer-events: none;
-        background: linear-gradient(
-          115deg,
-          transparent 30%,
-          rgba(255, 255, 255, 0.35) 48%,
-          transparent 62%
-        );
-        transform: translateX(-100%);
+        left: 50%;
+        bottom: 7px;
+        width: 18px;
+        height: 2px;
+        margin-left: -9px;
+        border-radius: 2px;
+        background: var(--m-gold);
+        opacity: 0;
+        transition: opacity 0.18s ease-out;
       }
-      .tier-card:hover .shimmer {
-        animation: shim 1.6s var(--ease);
+      .tier-btn[aria-selected="true"]::after {
+        opacity: 1;
       }
-      @keyframes shim {
-        to {
-          transform: translateX(100%);
-        }
+      .tier-btn:focus-visible {
+        outline: 2px solid var(--m-gold);
+        outline-offset: 3px;
       }
-      .tc-white {
-        background: linear-gradient(150deg, #ffffff, #f4eee1);
+
+      /* stage: every panel shares one grid cell, so the stage is always as
+         tall as the tallest tier and switching tabs never moves the page */
+      .tier-stage {
+        display: grid;
+        max-width: 520px;
+        margin: 0 auto;
       }
-      .tc-silver {
-        background: linear-gradient(150deg, #fbfcfd, #e4e7eb);
-      }
-      .tc-gold {
-        background: linear-gradient(150deg, #fbf1da, #ebd190);
-      }
-      .tc-black {
-        background: linear-gradient(150deg, #211d17, #0e0d0b);
-        color: #f4ecdc;
-        border-color: rgba(198, 145, 46, 0.45);
-      }
-      .tc-top {
+      .ms-panel {
+        grid-area: 1 / 1;
         display: flex;
+        flex-direction: column;
+        min-width: 0;
+        border: 1px solid var(--m-line);
+        border-radius: 20px;
+        background: var(--m-paper);
+        overflow: hidden;
+        visibility: hidden;
+      }
+      .ms-panel.is-active {
+        visibility: visible;
+      }
+      .ms-panel:focus-visible {
+        outline: 2px solid var(--m-gold);
+        outline-offset: 3px;
+      }
+
+      /* hero banner: headline + card on cream, photo on the right */
+      .ms-hero {
+        position: relative;
+        display: flex;
+        flex-direction: column;
         justify-content: space-between;
-        align-items: flex-start;
-        gap: 20px;
-        margin-bottom: 36px;
-        flex-wrap: wrap;
+        gap: 22px;
+        min-height: 300px;
+        padding: 30px 28px 28px;
+        background: var(--m-cream);
+        border-bottom: 1px solid var(--m-line);
+        overflow: hidden;
       }
-      .tc-name {
+      .ms-photo {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 54%;
+        margin: 0;
+        border-left: 1px solid var(--m-line);
+      }
+      .ms-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 58% 30%;
+      }
+      .ms-hero-title {
+        position: relative;
+        max-width: 48%;
         font-family: "Cormorant Garamond", serif;
-        font-size: 44px;
         font-weight: 600;
+        font-size: 34px;
         line-height: 1;
+        letter-spacing: -0.02em;
+        color: var(--m-ink);
       }
-      .tc-name em {
+      .ms-hero-title em {
         display: block;
-        font-size: 17px;
-        font-family: "Jost", sans-serif;
-        font-style: normal;
-        font-weight: 300;
-        color: var(--muted);
+        font-style: italic;
+        color: var(--m-gold);
+      }
+
+      /* the membership card */
+      .ms-card {
+        position: relative;
+        width: min(64%, 300px);
+        aspect-ratio: 1.586;
+        padding: 18px 20px 16px;
+        border-radius: 20px;
+        border: 1px solid var(--c-border);
+        background: var(--c-bg);
+        color: var(--c-ink);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+      }
+      .ms-card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .ms-card-brand {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+      .ms-card-brand i {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0;
+        text-transform: none;
+      }
+      .ms-card-top svg {
+        color: var(--c-accent);
+        flex: none;
+      }
+      .ms-card-name {
+        position: relative;
+        font-size: 28px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        line-height: 1;
+        text-transform: uppercase;
+        color: var(--c-name, var(--c-ink));
+      }
+      .ms-card-meta {
+        position: relative;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        opacity: 0.85;
+      }
+      .ms-card-sprig {
+        position: absolute;
+        right: -4px;
+        bottom: 22px;
+        width: 40%;
+        color: var(--c-accent);
+        pointer-events: none;
+      }
+      .mc-white {
+        --c-bg: #ffffff;
+        --c-border: #e9decb;
+        --c-ink: #1e160e;
+        --c-accent: #c6912e;
+      }
+      .mc-silver {
+        --c-bg: #e8eaed;
+        --c-border: #d2d6db;
+        --c-ink: #262a31;
+        --c-accent: #a87418;
+      }
+      .mc-gold {
+        --c-bg: #ecd49b;
+        --c-border: #dbbd73;
+        --c-ink: #33240b;
+        --c-accent: #8b5c1c;
+      }
+      .mc-black {
+        --c-bg: #1e1a15;
+        --c-border: #3a3128;
+        --c-ink: #efe4d0;
+        --c-name: #f1cd87;
+        --c-accent: #e3c77f;
+      }
+      .mc-diamond {
+        --c-bg: #eef2f5;
+        --c-border: #d4dde4;
+        --c-ink: #1e160e;
+        --c-name: #8b5c1c;
+        --c-accent: #c6912e;
+      }
+
+      /* details: one column, like the app screen */
+      .ms-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 28px 28px 28px;
+      }
+      .ms-summary {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+      .ms-privileges {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        margin-top: 22px;
+      }
+      .ms-title {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 600;
+        font-size: clamp(28px, 2.6vw, 34px);
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        color: var(--m-ink);
+      }
+      .ms-qualify {
         margin-top: 10px;
-        letter-spacing: 0.02em;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--m-ink);
+        font-variant-numeric: tabular-nums;
       }
-      .tc-black .tc-name em {
-        color: #c9b98f;
+      .ms-valid {
+        margin-top: 2px;
+        font-size: 14px;
+        color: var(--m-muted);
       }
-      .tc-crown {
-        width: 74px;
-        height: 74px;
-        border-radius: 50%;
+      .ms-pill {
+        align-self: flex-start;
+        margin-top: 8px;
+        padding: 4px 12px;
+        border-radius: 999px;
+        background: var(--m-sand);
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--m-ink);
+      }
+      .ms-rule {
+        height: 1px;
+        border: 0;
+        background: var(--m-hair);
+        margin: 22px 0 0;
+      }
+      .ms-note {
+        margin-top: 20px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        background: var(--m-cream);
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-weight: 600;
+        font-size: 17px;
+        line-height: 1.3;
+        text-align: center;
+        color: var(--m-ink);
+      }
+      .ms-actions {
+        margin-top: auto;
+        padding-top: 24px;
+      }
+      .ms-sub {
+        font-family: "Jost", sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+        color: var(--m-ink);
+        margin-bottom: 6px;
+      }
+      .ms-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .ms-list li {
+        display: grid;
+        grid-template-columns: 28px 1px minmax(0, 1fr);
+        align-items: center;
+        gap: 16px;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--m-line);
+      }
+      .ms-list li::before {
+        content: "";
+        grid-column: 2;
+        grid-row: 1;
+        align-self: stretch;
+        margin: 4px 0;
+        background: var(--m-line);
+      }
+      .ms-list svg {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: center;
+        color: var(--m-icon);
+      }
+      .ms-li-txt {
+        grid-column: 3;
+        grid-row: 1;
+      }
+      .ms-li-txt b {
+        display: block;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.3;
+        color: var(--m-ink);
+      }
+      .ms-li-txt small {
+        display: block;
+        font-size: 13.5px;
+        line-height: 1.4;
+        color: var(--m-muted);
+      }
+      .ms-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 44px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--m-gold);
+        text-decoration: underline;
+        text-decoration-color: transparent;
+        text-underline-offset: 3px;
+        transition: text-decoration-color 0.18s ease-out;
+      }
+      .ms-link:hover {
+        text-decoration-color: currentColor;
+      }
+      .ms-cta {
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid var(--hairline);
-      }
-      .tc-black .tc-crown {
-        border-color: rgba(198, 145, 46, 0.5);
-      }
-      .tc-benefits {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 14px;
-      }
-      .tc-b {
-        border-radius: var(--r-sm);
-        padding: 18px 14px;
-        text-align: center;
-        background: rgba(255, 255, 255, 0.55);
-        border: 1px solid var(--hairline-soft);
-      }
-      .tc-black .tc-b {
-        background: rgba(255, 255, 255, 0.05);
-        border-color: rgba(198, 145, 46, 0.3);
-      }
-      .tc-b svg {
-        margin: 0 auto 10px;
-        color: var(--deep-gold);
-      }
-      .tc-black .tc-b svg {
-        color: var(--pale-gold);
-      }
-      .tc-b b {
-        display: block;
-        font-size: 13.5px;
+        min-height: 52px;
+        margin-top: 8px;
+        border-radius: 999px;
+        background: var(--m-fill);
+        color: var(--m-ink);
+        font-size: 15px;
         font-weight: 600;
-        line-height: 1.35;
-        margin-bottom: 4px;
+        letter-spacing: 0.02em;
+        transition: background-color 0.18s ease-out;
       }
-      .tc-b span {
-        font-size: 11.5px;
-        color: var(--muted);
-        font-weight: 300;
-        line-height: 1.4;
-        display: block;
+      .ms-cta:hover {
+        background: var(--m-fill-hover);
       }
-      .tc-black .tc-b span {
-        color: #a99c82;
+      .ms-link:focus-visible,
+      .ms-cta:focus-visible {
+        outline: 2px solid var(--m-gold);
+        outline-offset: 3px;
+      }
+
+      @media (max-width: 480px) {
+        .tier-nav {
+          gap: 2px;
+          padding: 3px;
+        }
+        .tier-btn {
+          padding: 0 2px;
+          font-size: 10.5px;
+          letter-spacing: 0.05em;
+        }
+        .ms-hero {
+          min-height: 0;
+          gap: 18px;
+          padding: 22px 16px 16px;
+        }
+        .ms-photo {
+          width: 56%;
+        }
+        .ms-photo img {
+          object-position: 70% 30%;
+        }
+        .ms-hero-title {
+          max-width: 44%;
+          font-size: 27px;
+        }
+        .ms-card {
+          width: 64%;
+          padding: 12px 14px 11px;
+          border-radius: 10px;
+        }
+        .ms-card-brand {
+          font-size: 8.5px;
+        }
+        .ms-card-top svg {
+          width: 16px;
+          height: 16px;
+        }
+        .ms-card-name {
+          font-size: 19px;
+        }
+        .ms-card-meta {
+          font-size: 7px;
+          letter-spacing: 0.1em;
+        }
+        .ms-body {
+          padding: 22px 18px 22px;
+        }
+        .ms-privileges {
+          margin-top: 20px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .tier-btn,
+        .tier-btn::after,
+        .ms-link,
+        .ms-cta {
+          transition: none;
+        }
       }
       .mem-cta {
         text-align: center;
@@ -1027,246 +1316,234 @@
 
       /* ---------- benefits comparison table ---------- */
       .b-comp-wrapper {
-        margin-top: 84px;
+        margin-top: 88px;
         position: relative;
       }
       .b-comp-head {
         text-align: center;
         max-width: 680px;
-        margin: 0 auto 36px;
+        margin: 0 auto 32px;
       }
       .b-comp-head h3 {
         font-size: clamp(28px, 4vw, 44px);
         margin: 14px 0 10px;
       }
       .b-comp-head p {
-        color: var(--muted);
+        color: var(--m-muted);
         font-size: 16px;
-        font-weight: 300;
       }
       .b-comp-card {
-        background: #ffffff;
-        border: 1px solid var(--hairline);
-        border-radius: var(--r-hero);
-        box-shadow: 0 25px 70px rgba(30, 22, 14, 0.08);
+        border: 1px solid var(--m-line);
+        border-radius: 20px;
+        background: var(--m-paper);
         overflow: hidden;
-        position: relative;
       }
       .b-comp-scroll {
         overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
         scrollbar-width: thin;
-        scrollbar-color: var(--pale-gold) transparent;
+        scrollbar-color: var(--m-line) transparent;
       }
-      .b-comp-scroll::-webkit-scrollbar {
-        height: 6px;
-      }
-      .b-comp-scroll::-webkit-scrollbar-thumb {
-        background: var(--pale-gold);
-        border-radius: 999px;
+      .b-comp-scroll:focus-visible {
+        outline: 2px solid var(--m-gold);
+        outline-offset: -2px;
       }
       .b-comp-table {
         width: 100%;
+        min-width: 920px;
+        table-layout: fixed;
         border-collapse: separate;
         border-spacing: 0;
-        text-align: left;
-        font-size: 13.5px;
+        font-size: 14px;
+        line-height: 1.4;
+        color: var(--m-ink);
+      }
+      .b-comp-table col.c-privilege {
+        width: 22%;
       }
       .b-comp-table th,
       .b-comp-table td {
-        padding: 18px 24px;
+        padding: 16px 14px;
+        border-bottom: 1px solid var(--m-line);
         vertical-align: middle;
       }
+      .b-comp-table tbody tr:last-child th,
+      .b-comp-table tbody tr:last-child td {
+        border-bottom: 0;
+      }
       .b-comp-table thead th {
-        padding: 24px 24px;
-        border-bottom: 1px solid var(--hairline);
+        padding: 22px 12px 20px;
+        background: var(--m-cream);
+        text-align: center;
         font-weight: 600;
       }
-      .b-comp-table th.col-privilege {
-        width: 28%;
-        min-width: 240px;
-        color: var(--deep-gold);
-        font-size: 11.5px;
-        letter-spacing: 0.24em;
+      .b-comp-table thead th.col-privilege {
+        padding-left: 24px;
+        text-align: left;
+        font-size: 12px;
+        letter-spacing: 0.15em;
         text-transform: uppercase;
-        font-family: "Jost", sans-serif;
+        color: var(--m-gold);
       }
-      .b-comp-table th.col-tier {
-        width: 24%;
-        min-width: 210px;
+      .b-comp-table .col-tier {
+        border-left: 1px solid var(--m-line);
         text-align: center;
       }
-      .b-comp-table th.col-silver {
-        background: rgba(246, 248, 250, 0.7);
-        border-left: 1px solid var(--hairline-soft);
+      .b-comp-table .col-black {
+        background: var(--m-dark);
+        color: var(--m-on-dark);
+        border-left-color: var(--m-dark);
+        border-bottom-color: var(--m-dark-line);
       }
-      .b-comp-table th.col-gold {
-        background: rgba(253, 246, 230, 0.65);
-        border-left: 1px solid var(--hairline-soft);
+      .b-comp-table thead th.col-black {
+        background: var(--m-dark);
       }
-      .b-comp-table th.col-black {
-        background: linear-gradient(180deg, #1c1813 0%, #151310 100%);
-        border-left: 1px solid rgba(198, 145, 46, 0.35);
+      .b-comp-table th.col-privilege,
+      .b-comp-table td.col-privilege {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        background: var(--m-paper);
+        border-right: 1px solid var(--m-line);
       }
-
-      /* Tier Badges in Header */
-      .b-comp-badge {
+      .b-comp-table thead th.col-privilege {
+        background: var(--m-cream);
+      }
+      .b-comp-table .col-privilege + .col-tier {
+        border-left: 0;
+      }
+      .b-comp-table tbody th {
+        font-weight: 500;
+        text-align: left;
+      }
+      .b-tier {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
-        padding: 8px 22px;
+        gap: 6px;
+        padding: 6px 14px;
         border-radius: 999px;
+        border: 1px solid var(--c-border);
+        background: var(--c-bg);
+        color: var(--c-name, var(--c-ink));
         font-size: 12px;
         font-weight: 600;
-        letter-spacing: 0.18em;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
-        transition: transform 0.25s var(--ease);
+        white-space: nowrap;
       }
-      .b-comp-badge:hover {
-        transform: translateY(-2px);
+      .b-tier svg {
+        color: var(--c-accent);
       }
-      .badge-silver {
-        background: #f1f3f6;
-        color: #475467;
-        border: 1px solid #cfd5de;
+      .b-tier-min {
+        display: block;
+        margin-top: 8px;
+        font-size: 12.5px;
+        font-weight: 500;
+        color: var(--m-muted);
+        font-variant-numeric: tabular-nums;
       }
-      .badge-gold {
-        background: linear-gradient(135deg, #fff7e4, #f8e5b6);
-        color: #8c5d12;
-        border: 1px solid rgba(198, 145, 46, 0.45);
-        box-shadow: 0 2px 8px rgba(198, 145, 46, 0.15);
-      }
-      .badge-black {
-        background: linear-gradient(135deg, #2c261e, #13110e);
-        color: var(--pale-gold);
-        border: 1px solid rgba(227, 199, 127, 0.55);
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
-      }
-
-      /* Body Rows */
-      .b-comp-table tbody tr {
-        transition: background-color 0.2s var(--ease);
-      }
-      .b-comp-table tbody tr:not(:last-child) td {
-        border-bottom: 1px solid var(--hairline-soft);
-      }
-      .b-comp-table tbody tr:hover td.cell-privilege {
-        background-color: rgba(198, 145, 46, 0.04);
-      }
-      .b-comp-table tbody tr:hover td.cell-silver {
-        background-color: rgba(241, 244, 248, 0.85);
-      }
-      .b-comp-table tbody tr:hover td.cell-gold {
-        background-color: rgba(251, 241, 218, 0.55);
-      }
-      .b-comp-table tbody tr:hover td.cell-black {
-        background-color: #211c16;
-      }
-
-      /* Privilege cell styling */
-      .cell-privilege {
-        background: #ffffff;
+      .col-black .b-tier-min {
+        color: #c9b98f;
       }
       .privilege-item {
         display: flex;
         align-items: center;
-        gap: 14px;
-      }
-      .privilege-icon {
-        width: 34px;
-        height: 34px;
-        flex: none;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(198, 145, 46, 0.08);
-        border: 1px solid var(--hairline-soft);
-        color: var(--deep-gold);
-        transition:
-          transform 0.25s var(--ease),
-          background 0.25s var(--ease);
-      }
-      .b-comp-table tbody tr:hover .privilege-icon {
-        transform: scale(1.08);
-        background: rgba(198, 145, 46, 0.16);
-      }
-      .privilege-name {
+        gap: 12px;
+        padding-left: 10px;
+        text-align: left;
         font-weight: 500;
-        color: var(--ink);
-        font-size: 14px;
       }
-
-      /* Cell values */
-      .cell-tier {
-        text-align: center;
-        line-height: 1.45;
+      .privilege-item svg {
+        flex: none;
+        color: var(--m-icon);
       }
-      .cell-silver {
-        background: rgba(250, 251, 252, 0.6);
-        border-left: 1px solid var(--hairline-soft);
-        color: var(--ink);
+      .b-yes {
+        display: inline-flex;
+        color: var(--m-icon);
       }
-      .cell-gold {
-        background: rgba(254, 251, 245, 0.5);
-        border-left: 1px solid var(--hairline-soft);
-        color: var(--ink);
+      .col-black .b-yes {
+        color: var(--m-gold-on-dark);
       }
-      .cell-black {
-        background: linear-gradient(180deg, #181511 0%, #13110e 100%);
-        border-left: 1px solid rgba(198, 145, 46, 0.25);
-        color: #f4ecdc;
-        font-weight: 400;
+      .b-no {
+        color: #b3a796;
       }
-      .b-comp-table tbody tr:not(:last-child) td.cell-black {
-        border-bottom: 1px solid rgba(198, 145, 46, 0.15);
+      .col-black .b-no {
+        color: #6f6352;
       }
-
-      /* Dash formatting */
-      .b-comp-dash {
-        color: rgba(117, 104, 90, 0.4);
-        font-weight: 300;
-        font-size: 16px;
+      .b-val {
+        font-variant-numeric: tabular-nums;
       }
-      .cell-black .b-comp-dash {
-        color: rgba(227, 199, 127, 0.3);
-      }
-
-      /* Mobile hint */
       .b-comp-hint {
         display: none;
         align-items: center;
         justify-content: center;
         gap: 6px;
-        font-size: 12px;
-        color: var(--muted);
-        letter-spacing: 0.05em;
         margin-top: 14px;
-        text-align: center;
+        font-size: 13px;
+        color: var(--m-muted);
       }
-
-      @media (max-width: 900px) {
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      @media (max-width: 960px) {
         .b-comp-wrapper {
-          margin-top: 60px;
+          margin-top: 64px;
         }
         .b-comp-hint {
           display: flex;
         }
-        .b-comp-table th,
-        .b-comp-table td {
-          padding: 14px 16px;
+        .b-comp-table {
+          min-width: 820px;
+          font-size: 13.5px;
+        }
+        .b-comp-table col.c-privilege {
+          width: 160px;
         }
         .b-comp-table th.col-privilege,
-        .b-comp-table td.cell-privilege {
-          /* position: sticky;
-          left: 0; */
-          z-index: 3;
-          box-shadow: 2px 0 10px rgba(30, 22, 14, 0.05);
+        .b-comp-table td.col-privilege {
+          padding-left: 14px;
+        }
+        .privilege-item {
+          padding-left: 0;
+        }
+      }
+      @media (max-width: 600px) {
+        .b-comp-table {
+          min-width: 680px;
+          font-size: 13px;
+        }
+        .b-comp-table col.c-privilege {
+          width: 122px;
+        }
+        .b-comp-table th,
+        .b-comp-table td {
+          padding: 14px 8px;
+        }
+        .b-comp-table th.col-privilege,
+        .b-comp-table td.col-privilege {
+          padding-left: 12px;
         }
         .b-comp-table thead th.col-privilege {
-          background: #ffffff;
-          z-index: 4;
+          padding-left: 12px;
+          font-size: 11px;
+          letter-spacing: 0.1em;
+        }
+        .privilege-item {
+          gap: 8px;
+        }
+        .b-tier {
+          padding: 5px 10px;
+          font-size: 11px;
+          letter-spacing: 0.08em;
         }
       }
 
@@ -1920,9 +2197,6 @@
         .hl {
           flex-basis: calc((100% - 2 * 18px) / 3);
         }
-        .tc-benefits {
-          grid-template-columns: repeat(3, 1fr);
-        }
       }
       /* Nav: 9 links need ~1180px; below that use the burger menu */
       .nav-links a, .nav .btn { white-space: nowrap; }
@@ -2013,9 +2287,6 @@
         }
         .ln-grid {
           grid-template-columns: 1fr 1fr;
-        }
-        .tier-card {
-          padding: 38px 26px;
         }
       }
       @media (max-width: 600px) {
@@ -2155,9 +2426,6 @@
         }
         .hl {
           flex-basis: calc((100% - 14px) / 2);
-        }
-        .tc-benefits {
-          grid-template-columns: 1fr 1fr;
         }
         .ln-grid {
           grid-template-columns: 1fr;
@@ -2839,7 +3107,7 @@
         <div class="tier-stage rv" id="tierStage"></div>
 
         <!-- Benefits Comparison Section -->
-        <div class="b-comp-wrapper rv">
+        <div class="b-comp-wrapper rv" id="tier-comparison">
           <div class="b-comp-head rv">
             <span class="eyebrow center">Tier Comparison</span>
             <h3 class="display">
@@ -2849,516 +3117,16 @@
           </div>
 
           <div class="b-comp-card">
-            <div class="b-comp-scroll">
-              <table
-                class="b-comp-table"
-                aria-label="Benefits Comparison Table"
-              >
-                <thead>
-                  <tr>
-                    <th scope="col" class="col-privilege">Privileges</th>
-                    <th scope="col" class="col-tier col-silver">
-                      <span class="b-comp-badge badge-silver">
-                        <svg
-                          width="13"
-                          height="13"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2.2"
-                          aria-hidden="true"
-                        >
-                          <path d="M12 2L2 12l10 10 10-10L12 2z" />
-                        </svg>
-                        Silver
-                      </span>
-                    </th>
-                    <th scope="col" class="col-tier col-gold">
-                      <span class="b-comp-badge badge-gold">
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="1.8"
-                          aria-hidden="true"
-                        >
-                          <path d="M3 17l1.5-9L9 12l3-7 3 7 4.5-4L21 17z" />
-                          <path d="M4 20h16" />
-                        </svg>
-                        Gold
-                      </span>
-                    </th>
-                    <th scope="col" class="col-tier col-black">
-                      <span class="b-comp-badge badge-black">
-                        <svg
-                          width="13"
-                          height="13"
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path
-                            d="m12 2 1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"
-                          />
-                          <path
-                            d="M19 15l.9 3.1L23 19l-3.1.9L19 23l-.9-3.1L15 19l3.1-.9L19 15z"
-                          />
-                        </svg>
-                        Black
-                      </span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- Row 1: Member-only deals -->
-                  <tr>
-                    <td class="cell-privilege">
-                      <div class="privilege-item">
-                        <span class="privilege-icon">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.6"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2V3.4h10l7.2 7.2a2 2 0 0 1 0 2.8z"
-                            />
-                            <circle cx="7.5" cy="7.5" r="1.2" />
-                          </svg>
-                        </span>
-                        <span class="privilege-name">Member-only deals</span>
-                      </div>
-                    </td>
-                    <td class="cell-tier cell-silver">
-                      Access to member-only deals &amp; exclusive offers
-                    </td>
-                    <td class="cell-tier cell-gold">
-                      Access to member-only deals &amp; exclusive offers
-                    </td>
-                    <td class="cell-tier cell-black">
-                      Access to member-only deals &amp; exclusive offers
-                    </td>
-                  </tr>
-
-                  <!-- Row 2: Extra discounts -->
-                  <tr>
-                    <td class="cell-privilege">
-                      <div class="privilege-item">
-                        <span class="privilege-icon">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.6"
-                            aria-hidden="true"
-                          >
-                            <rect x="3" y="3" width="18" height="18" rx="4" />
-                            <path d="m9 15 6-6M9 9h.01M15 15h.01" />
-                          </svg>
-                        </span>
-                        <span class="privilege-name">Extra discounts</span>
-                      </div>
-                    </td>
-                    <td class="cell-tier cell-silver">Up to 2% off</td>
-                    <td class="cell-tier cell-gold">Up to 4% off</td>
-                    <td class="cell-tier cell-black">Up to 6% off</td>
-                  </tr>
-
-                  <!-- Row 3: Points earning -->
-                  <tr>
-                    <td class="cell-privilege">
-                      <div class="privilege-item">
-                        <span class="privilege-icon">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.6"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
-                            />
-                            <path
-                              d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
-                            />
-                          </svg>
-                        </span>
-                        <span class="privilege-name">Points earning</span>
-                      </div>
-                    </td>
-                    <td class="cell-tier cell-silver">$15 referral bonus</td>
-                    <td class="cell-tier cell-gold">
-                      <span class="b-comp-dash" aria-label="Not included"
-                        >—</span
-                      >
-                    </td>
-                    <td class="cell-tier cell-black">
-                      <span class="b-comp-dash" aria-label="Not included"
-                        >—</span
-                      >
-                    </td>
-                  </tr>
-
-                  <!-- Row 4: Birthday reward -->
-                  <tr>
-                    <td class="cell-privilege">
-                      <div class="privilege-item">
-                        <span class="privilege-icon">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.6"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M4 21h16M5 21v-8h14v8M12 5v3M9 3v2M15 3v2M5 13c0-2 2-5 7-5s7 3 7 5"
-                            />
-                          </svg>
-                        </span>
-                        <span class="privilege-name">Birthday reward</span>
-                      </div>
-                    </td>
-                    <td class="cell-tier cell-silver">$20 eVoucher</td>
-                    <td class="cell-tier cell-gold">$30 eVoucher</td>
-                    <td class="cell-tier cell-black">$50 eVoucher</td>
-                  </tr>
-
-                  <!-- Row 5: Priority booking -->
-                  <tr>
-                    <td class="cell-privilege">
-                      <div class="privilege-item">
-                        <span class="privilege-icon">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.6"
-                            aria-hidden="true"
-                          >
-                            <rect x="3" y="4" width="18" height="18" rx="2" />
-                            <path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4" />
-                          </svg>
-                        </span>
-                        <span class="privilege-name">Priority booking</span>
-                      </div>
-                    </td>
-                    <td class="cell-tier cell-silver">
-                      <span class="b-comp-dash" aria-label="Not included"
-                        >—</span
-                      >
-                    </td>
-                    <td class="cell-tier cell-gold">
-                      Priority &amp; same-day booking (cutoff 16:00 SGT)
-                    </td>
-                    <td class="cell-tier cell-black">
-                      Top priority &amp; same-day booking (cutoff 12:00 SGT)
-                    </td>
-                  </tr>
-
-                  <!-- Row 6: Cancellation flexibility -->
-                  <tr>
-                    <td class="cell-privilege">
-                      <div class="privilege-item">
-                        <span class="privilege-icon">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.6"
-                            aria-hidden="true"
-                          >
-                            <circle cx="12" cy="12" r="9" />
-                            <path d="M12 7v5l3 3" />
-                          </svg>
-                        </span>
-                        <span class="privilege-name"
-                          >Cancellation flexibility</span
-                        >
-                      </div>
-                    </td>
-                    <td class="cell-tier cell-silver">24 Hours Free</td>
-                    <td class="cell-tier cell-gold">
-                      <span class="b-comp-dash" aria-label="Not included"
-                        >—</span
-                      >
-                    </td>
-                    <td class="cell-tier cell-black">
-                      <span class="b-comp-dash" aria-label="Not included"
-                        >—</span
-                      >
-                    </td>
-                  </tr>
-
-                  <!-- Row 7: Early access -->
-                  <tr>
-                    <td class="cell-privilege">
-                      <div class="privilege-item">
-                        <span class="privilege-icon">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.6"
-                            aria-hidden="true"
-                          >
-                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                          </svg>
-                        </span>
-                        <span class="privilege-name">Early access</span>
-                      </div>
-                    </td>
-                    <td class="cell-tier cell-silver">
-                      <span class="b-comp-dash" aria-label="Not included"
-                        >—</span
-                      >
-                    </td>
-                    <td class="cell-tier cell-gold">
-                      Early access to new launches &amp; limited offers
-                    </td>
-                    <td class="cell-tier cell-black">
-                      Early access to new launches &amp; limited offers
-                    </td>
-                  </tr>
-
-                  <!-- Row 8: Exclusive promotions -->
-                  <tr>
-                    <td class="cell-privilege">
-                      <div class="privilege-item">
-                        <span class="privilege-icon">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.6"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"
-                            />
-                            <line x1="3" y1="6" x2="21" y2="6" />
-                            <path d="M16 10a4 4 0 0 1-8 0" />
-                          </svg>
-                        </span>
-                        <span class="privilege-name">Exclusive promotions</span>
-                      </div>
-                    </td>
-                    <td class="cell-tier cell-silver">
-                      <span class="b-comp-dash" aria-label="Not included"
-                        >—</span
-                      >
-                    </td>
-                    <td class="cell-tier cell-gold">
-                      <span class="b-comp-dash" aria-label="Not included"
-                        >—</span
-                      >
-                    </td>
-                    <td class="cell-tier cell-black">
-                      <span class="b-comp-dash" aria-label="Not included"
-                        >—</span
-                      >
-                    </td>
-                  </tr>
-
-                  <!-- Row 9: Concierge chat -->
-                  <tr>
-                    <td class="cell-privilege">
-                      <div class="privilege-item">
-                        <span class="privilege-icon">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.6"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
-                            />
-                          </svg>
-                        </span>
-                        <span class="privilege-name">Concierge chat</span>
-                      </div>
-                    </td>
-                    <td class="cell-tier cell-silver">
-                      <span class="b-comp-dash" aria-label="Not included"
-                        >—</span
-                      >
-                    </td>
-                    <td class="cell-tier cell-gold">
-                      VIP priority concierge chat 24/7
-                    </td>
-                    <td class="cell-tier cell-black">
-                      VIP priority concierge chat 24/7
-                    </td>
-                  </tr>
-
-                  <!-- Row 10: Customer support -->
-                  <tr>
-                    <td class="cell-privilege">
-                      <div class="privilege-item">
-                        <span class="privilege-icon">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.6"
-                            aria-hidden="true"
-                          >
-                            <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
-                            <path
-                              d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"
-                            />
-                          </svg>
-                        </span>
-                        <span class="privilege-name">Customer support</span>
-                      </div>
-                    </td>
-                    <td class="cell-tier cell-silver">Standard support</td>
-                    <td class="cell-tier cell-gold">Concierge Chat</td>
-                    <td class="cell-tier cell-black">VIP Support</td>
-                  </tr>
-
-                  <!-- Row 11: Staff selection -->
-                  <tr>
-                    <td class="cell-privilege">
-                      <div class="privilege-item">
-                        <span class="privilege-icon">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.6"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
-                            />
-                            <circle cx="9" cy="7" r="4" />
-                            <path d="M19 11l2 2 4-4" />
-                          </svg>
-                        </span>
-                        <span class="privilege-name">Staff selection</span>
-                      </div>
-                    </td>
-                    <td class="cell-tier cell-silver">
-                      <span class="b-comp-dash" aria-label="Not included"
-                        >—</span
-                      >
-                    </td>
-                    <td class="cell-tier cell-gold">
-                      <span class="b-comp-dash" aria-label="Not included"
-                        >—</span
-                      >
-                    </td>
-                    <td class="cell-tier cell-black">
-                      Preferred staff selection
-                    </td>
-                  </tr>
-
-                  <!-- Row 12: Special experiences -->
-                  <tr>
-                    <td class="cell-privilege">
-                      <div class="privilege-item">
-                        <span class="privilege-icon">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.6"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"
-                            />
-                          </svg>
-                        </span>
-                        <span class="privilege-name">Special experiences</span>
-                      </div>
-                    </td>
-                    <td class="cell-tier cell-silver">
-                      <span class="b-comp-dash" aria-label="Not included"
-                        >—</span
-                      >
-                    </td>
-                    <td class="cell-tier cell-gold">
-                      <span class="b-comp-dash" aria-label="Not included"
-                        >—</span
-                      >
-                    </td>
-                    <td class="cell-tier cell-black">
-                      <span class="b-comp-dash" aria-label="Not included"
-                        >—</span
-                      >
-                    </td>
-                  </tr>
-
-                  <!-- Row 13: Black-only surprises -->
-                  <tr>
-                    <td class="cell-privilege">
-                      <div class="privilege-item">
-                        <span class="privilege-icon">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.6"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M20 12v9H4v-9M2 7h20v5H2zM12 7v14M12 7c-2-4-7-4-7-1s5 1 7 1zm0 0c2-4 7-4 7-1s-5 1-7 1z"
-                            />
-                          </svg>
-                        </span>
-                        <span class="privilege-name">Black-only surprises</span>
-                      </div>
-                    </td>
-                    <td class="cell-tier cell-silver">
-                      <span class="b-comp-dash" aria-label="Not included"
-                        >—</span
-                      >
-                    </td>
-                    <td class="cell-tier cell-gold">
-                      <span class="b-comp-dash" aria-label="Not included"
-                        >—</span
-                      >
-                    </td>
-                    <td class="cell-tier cell-black">
-                      Complimentary gifts &amp; surprises
-                    </td>
-                  </tr>
-                </tbody>
+            <div
+              class="b-comp-scroll"
+              role="region"
+              aria-label="Benefits comparison, scrolls sideways"
+              tabindex="0"
+            >
+              <table class="b-comp-table" id="tierCompare">
+                <caption class="sr-only">
+                  Privileges included in each Le Meow membership tier
+                </caption>
               </table>
             </div>
           </div>
@@ -3374,7 +3142,7 @@
             >
               <path d="M5 12h14M12 5l7 7-7 7M12 19l-7-7 7-7" />
             </svg>
-            Swipe horizontally to compare tiers
+            Swipe sideways to see every tier
           </div>
         </div>
 
@@ -4495,98 +4263,14 @@
     </script>
     <!-- Setup dynamic Membership Tiers -->
     <script>
+      // Built-in copy of the tiers (matches the live API on 21 Nov 2026).
+      // Used for the first paint and whenever the API cannot be reached.
       const fallbackTiers = [
-        {
-          id: 1,
-          name: "White",
-          slug: "white",
-          min_spend: "0.00",
-          sort_order: 0,
-          referral_bonus_percent: "20.00",
-          referral_bonus_amount: "10.00",
-          referral_bonus_type: "fixed",
-          birthday_voucher_amount: "15.00",
-          free_cancellation_hours: 48,
-          blanket_discount_percent: "0.00",
-          has_member_only_deals: true,
-          support_level: "priority",
-          support_card_title: "Expedited Support",
-          allow_same_day_booking: false,
-          has_early_access: false,
-          has_concierge_chat: false,
-          has_black_only_surprises: false,
-          allow_staff_selection: false,
-          badge_image_url:
-            "https://lemeowapis.meowadvancedintelligence.com/storage/images/membership_tiers/6a7b2a9805391_1786456728.png",
-        },
-        {
-          id: 2,
-          name: "Silver",
-          slug: "silver",
-          min_spend: "1000.00",
-          sort_order: 1,
-          referral_bonus_percent: "15.00",
-          referral_bonus_amount: "15.00",
-          referral_bonus_type: "fixed",
-          birthday_voucher_amount: "20.00",
-          free_cancellation_hours: 24,
-          blanket_discount_percent: "2.00",
-          has_member_only_deals: true,
-          support_level: "standard",
-          support_card_title: null,
-          allow_same_day_booking: false,
-          has_early_access: false,
-          has_concierge_chat: false,
-          has_black_only_surprises: false,
-          allow_staff_selection: false,
-          badge_image_url: null,
-        },
-        {
-          id: 3,
-          name: "Gold",
-          slug: "gold",
-          min_spend: "3000.00",
-          sort_order: 2,
-          referral_bonus_percent: "20.00",
-          referral_bonus_amount: "0.00",
-          referral_bonus_type: "fixed",
-          birthday_voucher_amount: "30.00",
-          free_cancellation_hours: 0,
-          blanket_discount_percent: "4.00",
-          has_member_only_deals: true,
-          support_level: "vip_concierge",
-          support_card_title: "Concierge Chat",
-          allow_same_day_booking: true,
-          booking_cutoff_time: "16:00:00",
-          has_early_access: true,
-          has_concierge_chat: true,
-          has_black_only_surprises: false,
-          allow_staff_selection: false,
-          badge_image_url: null,
-        },
-        {
-          id: 4,
-          name: "Black",
-          slug: "black",
-          min_spend: "5000.00",
-          sort_order: 3,
-          referral_bonus_percent: "50.00",
-          referral_bonus_amount: "0.00",
-          referral_bonus_type: "fixed",
-          birthday_voucher_amount: "50.00",
-          free_cancellation_hours: 0,
-          blanket_discount_percent: "6.00",
-          has_member_only_deals: true,
-          support_level: "vip_concierge",
-          support_card_title: "VIP Support",
-          allow_same_day_booking: true,
-          booking_cutoff_time: "12:00:00",
-          has_early_access: true,
-          has_concierge_chat: true,
-          has_black_only_surprises: true,
-          allow_staff_selection: true,
-          badge_image_url: null,
-        },
+        {"id": 1, "name": "White", "slug": "white", "min_spend": "0.00", "sort_order": 0, "referral_bonus_percent": "0.00", "referral_bonus_amount": "10.00", "referral_bonus_type": "fixed", "birthday_voucher_amount": "15.00", "monthly_coupon_count": 0, "free_cancellation_hours": 48, "blanket_discount_percent": "0.00", "has_member_only_deals": true, "promotions_text": null, "support_card_title": "Expedited Support", "priority_booking_level": "none", "has_early_access": false, "special_experiences_text": null, "has_black_only_surprises": false, "has_concierge_chat": false, "allow_same_day_booking": false, "booking_cutoff_time": "16:00:00", "allow_staff_selection": false, "is_active": true},
+        {"id": 2, "name": "Silver", "slug": "silver", "min_spend": "1000.00", "sort_order": 1, "referral_bonus_percent": "10.00", "referral_bonus_amount": "15.00", "referral_bonus_type": "fixed", "birthday_voucher_amount": "20.00", "monthly_coupon_count": 1, "free_cancellation_hours": 24, "blanket_discount_percent": "2.00", "has_member_only_deals": true, "promotions_text": null, "support_card_title": null, "priority_booking_level": "none", "has_early_access": false, "special_experiences_text": null, "has_black_only_surprises": false, "has_concierge_chat": false, "allow_same_day_booking": false, "booking_cutoff_time": "16:00:00", "allow_staff_selection": false, "is_active": true},
+        {"id": 3, "name": "Gold", "slug": "gold", "min_spend": "2000.00", "sort_order": 2, "referral_bonus_percent": "20.00", "referral_bonus_amount": "0.00", "referral_bonus_type": "fixed", "birthday_voucher_amount": "30.00", "monthly_coupon_count": 2, "free_cancellation_hours": 0, "blanket_discount_percent": "4.00", "has_member_only_deals": true, "promotions_text": null, "support_card_title": "Concierge Chat", "priority_booking_level": "none", "has_early_access": false, "special_experiences_text": null, "has_black_only_surprises": false, "has_concierge_chat": true, "allow_same_day_booking": true, "booking_cutoff_time": "16:00:00", "allow_staff_selection": true, "is_active": true},
+        {"id": 4, "name": "Black", "slug": "black", "min_spend": "5000.00", "sort_order": 3, "referral_bonus_percent": "50.00", "referral_bonus_amount": "0.00", "referral_bonus_type": "fixed", "birthday_voucher_amount": "50.00", "monthly_coupon_count": 4, "free_cancellation_hours": 0, "blanket_discount_percent": "6.00", "has_member_only_deals": true, "promotions_text": null, "support_card_title": "VIP Support", "priority_booking_level": "none", "has_early_access": false, "special_experiences_text": null, "has_black_only_surprises": true, "has_concierge_chat": true, "allow_same_day_booking": true, "booking_cutoff_time": "12:00:00", "allow_staff_selection": true, "is_active": true},
+        {"id": 5, "name": "Diamond", "slug": "diamond", "min_spend": "10000.00", "sort_order": 4, "referral_bonus_percent": "0.00", "referral_bonus_amount": "50.00", "referral_bonus_type": "fixed", "birthday_voucher_amount": "100.00", "monthly_coupon_count": 0, "free_cancellation_hours": 0, "blanket_discount_percent": "8.00", "has_member_only_deals": true, "promotions_text": null, "support_card_title": "Diamond Concierge", "priority_booking_level": "priority", "has_early_access": true, "special_experiences_text": "Selected Diamond member experiences", "has_black_only_surprises": false, "has_concierge_chat": true, "allow_same_day_booking": true, "booking_cutoff_time": "12:00:00", "allow_staff_selection": true, "is_active": true},
       ];
 
       async function fetchMembershipTiers() {
@@ -4605,203 +4289,348 @@
         }
       }
 
-      const tierColors = {
-        white: {
-          stroke: "#B7A784",
-          gradient: "linear-gradient(135deg, #d9cdb6, #b7a784)",
-          cardBg: "linear-gradient(150deg, #ffffff, #f4eee1)",
-        },
-        silver: {
-          stroke: "#8A9099",
-          gradient: "linear-gradient(135deg, #b9bec6, #8a9099)",
-          cardBg: "linear-gradient(150deg, #fbfcfd, #e4e7eb)",
-        },
-        gold: {
-          stroke: "#A87418",
-          gradient:
-            "linear-gradient(135deg, var(--pale-gold), var(--deep-gold))",
-          cardBg: "linear-gradient(150deg, #fbf1da, #ebd190)",
-        },
-        black: {
-          stroke: "#E3C77F",
-          gradient: "linear-gradient(135deg, #2a2620, #0f0e0c)",
-          cardBg: "linear-gradient(150deg, #211d17, #0e0d0b)",
-        },
+      function escapeHtml(value) {
+        return String(value == null ? "" : value).replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c],
+        );
+      }
+
+      function formatSgd(value) {
+        const n = parseFloat(value) || 0;
+        return (
+          "S$" +
+          n.toLocaleString("en-SG", {
+            minimumFractionDigits: n % 1 ? 2 : 0,
+            maximumFractionDigits: 2,
+          })
+        );
+      }
+
+      const privilegeIcons = {
+        ticket: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-2a2 2 0 0 0 0-4z"/><path d="M14 7v2M14 11v2M14 15v2"/></svg>`,
+        gift: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v8h14v-8M12 8v12M12 8c-1.5-3.5-6-3.8-6-1.3C6 8 9 8 12 8zm0 0c1.5-3.5 6-3.8 6-1.3C18 8 15 8 12 8z"/></svg>`,
+        percent: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 15l6-6"/><circle cx="9.3" cy="9.3" r="1"/><circle cx="14.7" cy="14.7" r="1"/></svg>`,
+        check: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 9.8"/></svg>`,
+        chat: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.5a7.5 7.5 0 0 1-11 6.6L4 19.5l1.4-4.6A7.5 7.5 0 1 1 20 11.5z"/><path d="M8.8 11.5h.01M12.3 11.5h.01M15.8 11.5h.01"/></svg>`,
+        support: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><path d="M19 19c0 1.5-1.5 2.5-4 2.5h-2"/></svg>`,
+        tag: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.2"/></svg>`,
+        coins: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="10" cy="6" rx="6" ry="2.5"/><path d="M4 6v4c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V6M4 10v4c0 1.4 2.7 2.5 6 2.5M20 13c0 1.4-2.7 2.5-6 2.5S8 14.4 8 13s2.7-2.5 6-2.5 6 1.1 6 2.5zM8 13v4c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-4"/></svg>`,
+        calendar: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>`,
       };
 
-      const tierSubtitles = {
-        white: "Welcome to Le Meow",
-        silver: "More Ways to Save",
-        gold: "You're a Priority",
-        black: "Our VIP Tier",
+      const cardIcons = {
+        crown: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l1.6-9.5L9 12l3-7 3 7 4.4-4.5L21 17z"/><path d="M4 20h16"/></svg>`,
+        diamond: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12l4 5-10 11L2 9z"/><path d="M2 9h20M9 4l-2 5 5 11 5-11-2-5"/></svg>`,
       };
 
-      function getBenefits(tier) {
-        const benefits = [];
-        if (parseFloat(tier.blanket_discount_percent) > 0) {
-          benefits.push({
-            icon: "tag",
-            title: `Up to ${parseFloat(tier.blanket_discount_percent)}% Off`,
-            desc: "Save more on every booking",
+      const cardSprig = `<svg class="ms-card-sprig" viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" aria-hidden="true"><path d="M14 86C40 70 66 54 116 18"/><path d="M38 72c-3-9 1-17 10-20 2 9-2 17-10 20z"/><path d="M58 59c-2-9 3-16 12-18 1 9-4 16-12 18z"/><path d="M78 45c-1-9 4-15 13-16 0 9-5 15-13 16z"/><path d="M47 66c8-4 17-2 21 5-8 4-17 2-21-5z"/><path d="M68 52c8-3 16 0 19 7-8 3-16 0-19-7z"/><path d="M96 31c-1-7 3-12 10-13 0 7-4 12-10 13z"/></svg>`;
+
+      Object.assign(privilegeIcons, {
+        star: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>`,
+        clock: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>`,
+        userPlus: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21v-1a6 6 0 0 1 6-6h2a6 6 0 0 1 6 6v1M19 8v6M16 11h6"/></svg>`,
+        bolt: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>`,
+        person: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7v1"/></svg>`,
+        sparkle: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>`,
+      });
+
+      const checkMark = `<span class="b-yes"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span class="sr-only">Included</span></span>`;
+      const notIncluded = `<span class="b-no" aria-hidden="true">—</span><span class="sr-only">Not included</span>`;
+
+      const num = (v) => parseFloat(v) || 0;
+      const isTopTier = (i, tiers) => i === tiers.length - 1;
+
+      // Privileges shown on each tier's card. Wording follows the membership
+      // design; amounts and which items appear come from the API.
+      function getPrivileges(tier, i, tiers) {
+        if (num(tier.min_spend) === 0) {
+          const starter = [
+            { icon: "coins", title: "Earn reward points", desc: "On eligible purchases" },
+          ];
+          if (tier.has_member_only_deals) {
+            starter.push({ icon: "tag", title: "Member-only offers", desc: "Selected offers in the app" });
+          }
+          starter.push({ icon: "calendar", title: "Easy app bookings", desc: "Beauty, learning and lifestyle" });
+          return starter;
+        }
+
+        const list = [];
+        const coupons = parseInt(tier.monthly_coupon_count, 10) || 0;
+        const birthday = num(tier.birthday_voucher_amount);
+        const cancelHours = parseInt(tier.free_cancellation_hours, 10) || 0;
+        const top = isTopTier(i, tiers);
+        const deals = tier.has_member_only_deals
+          ? {
+              icon: "tag",
+              title: "Member-only deals",
+              desc: top
+                ? "Discover exclusive member offers"
+                : (parseInt(tier.sort_order, 10) || 0) >= 2
+                  ? "Exclusive offers in the app"
+                  : "Selected offers in the app",
+            }
+          : null;
+
+        if (top && deals) list.push(deals);
+        if (coupons > 0) {
+          list.push({
+            icon: "ticket",
+            title: `${coupons} monthly coupon${coupons > 1 ? "s" : ""}`,
+            desc: "Discover offers across Le Meow",
           });
         }
-        benefits.push({
-          icon: "coin",
-          title: `Earn ${parseFloat(tier.referral_bonus_percent) >= 20 ? (parseFloat(tier.referral_bonus_percent) / 10).toFixed(1) : "1.25"}X Points`,
-          desc: "Earn more with every spend",
-        });
-        if (parseFloat(tier.referral_bonus_amount) > 0) {
-          benefits.push({
-            icon: "user-plus",
-            title: `$${parseFloat(tier.referral_bonus_amount).toFixed(0)} Referral Bonus`,
-            desc: "Share & earn together",
-          });
-        } else if (parseFloat(tier.referral_bonus_percent) > 0) {
-          benefits.push({
-            icon: "user-plus",
-            title: `${parseFloat(tier.referral_bonus_percent).toFixed(0)}% Referral Bonus`,
-            desc: "Share & earn together",
+        if (birthday > 0) {
+          list.push({
+            icon: "gift",
+            title: `${formatSgd(birthday)} birthday reward`,
+            desc: "A treat in your birthday month",
           });
         }
-        if (parseFloat(tier.birthday_voucher_amount) > 0) {
-          benefits.push({
-            icon: "cake",
-            title: `$${parseFloat(tier.birthday_voucher_amount).toFixed(0)} Birthday Treat`,
-            desc: "A special treat on your day",
-          });
-        }
-        if (tier.free_cancellation_hours > 0) {
-          benefits.push({
-            icon: "clock",
-            title: `${tier.free_cancellation_hours}H Cancellation`,
-            desc: `Cancel up to ${tier.free_cancellation_hours} hours ahead`,
-          });
-        }
-        if (tier.support_card_title) {
-          benefits.push({
-            icon: "support",
-            title: tier.support_card_title,
-            desc: "Faster response, priority care",
-          });
-        }
-        if (tier.allow_same_day_booking) {
-          benefits.push({
-            icon: "calendar",
-            title: "Same-Day Booking",
-            desc: "Book & confirm on the same day",
+        if (cancelHours > 0) {
+          list.push({
+            icon: "check",
+            title: "Free cancellation",
+            desc: `Cancel at least ${cancelHours} hours before`,
           });
         }
         if (tier.has_concierge_chat) {
-          benefits.push({
+          list.push({
             icon: "chat",
-            title: "Concierge Chat",
-            desc: "Personalised help just for you",
+            title: "Concierge chat",
+            desc: "Personal help with bookings",
           });
         }
-        if (tier.has_black_only_surprises) {
-          benefits.push({
-            icon: "gift",
-            title: "Black-Only Surprises",
-            desc: "Exclusive surprises just for you",
-          });
-        }
-        if (tier.has_early_access) {
-          benefits.push({
-            icon: "rocket",
-            title: "Early Access",
-            desc: "Be the first to explore new features",
-          });
-        }
-        return benefits.slice(0, 5);
+        if (!top && deals) list.push(deals);
+        return list.slice(0, 5);
       }
 
-      const benefitIcons = {
-        tag: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2V3.4h10l7.2 7.2a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.2"/></svg>`,
-        coin: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg>`,
-        "user-plus": `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>`,
-        cake: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 21h16M5 21v-8h14v8M12 5v3M9 3v2M15 3v2M5 13c0-2 2-5 7-5s7 3 7 5"/></svg>`,
-        clock: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>`,
-        support: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12a9 9 0 0 1 18 0v5a2 2 0 0 1-2 2h-2v-6h4M3 12v5a2 2 0 0 0 2 2h2v-6H3"/></svg>`,
-        calendar: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg>`,
-        chat: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a8 8 0 0 1-8 8H5l-2 2V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"/><circle cx="9" cy="12" r=".8" fill="currentColor"/><circle cx="13" cy="12" r=".8" fill="currentColor"/><circle cx="17" cy="12" r=".8" fill="currentColor"/></svg>`,
-        gift: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 7v14M12 7c-2-4-7-4-7-1s5 1 7 1zm0 0c2-4 7-4 7-1s-5 1-7 1z"/></svg>`,
-        rocket: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>`,
-      };
+      // One photo per tier (generated set, 800 x 800). Unknown tiers fall back
+      // to the shared membership photo.
+      const tierPhotos = ["white", "silver", "gold", "black", "diamond"];
+      function tierPhoto(slug) {
+        return tierPhotos.includes(slug)
+          ? `/images/membership/tier-${slug}.webp`
+          : "/images/membership-woman.webp";
+      }
 
-      (async () => {
-        const tierNav = document.getElementById("tierNav");
-        const tierStage = document.getElementById("tierStage");
-        if (!tierNav || !tierStage) return;
+      function renderActions() {
+        return `
+                <div class="ms-actions">
+                  <a class="ms-link" href="/#tier-comparison">View all tier benefits
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+                  </a>
+                  <a class="ms-cta" href="/#download">Explore Member Offers</a>
+                </div>`;
+      }
 
-        const tiers = await fetchMembershipTiers();
-        if (tiers.length === 0) return;
+      function renderTierPanel(tier, i, tiers) {
+        const slug = escapeHtml(tier.slug);
+        const name = escapeHtml(tier.name);
+        const minSpend = num(tier.min_spend);
+        const top = isTopTier(i, tiers);
 
-        tierNav.innerHTML = tiers
+        const qualify = minSpend > 0 ? `Spend ${formatSgd(minSpend)} to qualify` : "Free to join";
+        const sub = top
+          ? `<span class="ms-pill">Our highest membership tier</span>`
+          : `<p class="ms-valid">${minSpend > 0 ? "Tier valid for 12 months" : "Your membership journey starts here"}</p>`;
+        const note = top
+          ? `<p class="ms-note">A more rewarding everyday.</p>`
+          : i === 0
+            ? `<p class="ms-note">More privileges as you grow.</p>`
+            : "";
+
+        const privileges = getPrivileges(tier, i, tiers)
           .map(
-            (tier, i) =>
-              `<button class="tier-btn t-${tier.slug}" role="tab" aria-selected="${i === 0 ? "true" : "false"}" data-tier="${tier.slug}">${tier.name}</button>`,
+            (p) => `
+                    <li>
+                      ${privilegeIcons[p.icon] || privilegeIcons.tag}
+                      <span class="ms-li-txt"><b>${escapeHtml(p.title)}</b><small>${escapeHtml(p.desc)}</small></span>
+                    </li>`,
           )
           .join("");
 
-        tierStage.innerHTML = tiers
-          .map((tier, i) => {
-            const colors = tierColors[tier.slug] || tierColors.white;
-            const subtitle = tierSubtitles[tier.slug] || "Your membership tier";
-            const benefits = getBenefits(tier);
-            const isBlack = tier.slug === "black";
-            return `
-            <div class="tier-card tc-${tier.slug} ${i === 0 ? "active" : ""}" data-panel="${tier.slug}" role="tabpanel" ${i !== 0 ? "hidden" : ""}>
-              <span class="shimmer"></span>
-              <div class="tc-top">
-                <div class="tc-name display" ${isBlack ? 'style="color: #f4ecdc"' : ""}>${tier.name}<em>${subtitle}</em></div>
-                ${tier.badge_image_url ? `<div class="tc-crown"><img src="${tier.badge_image_url}" alt="${tier.name} badge" style="width:100%;height:100%;object-fit:contain;border-radius:50%;"></div>` : `<div class="tc-crown"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="${colors.stroke}" stroke-width="1.3"><path d="M3 17l1.5-9L9 12l3-7 3 7 4.5-4L21 17z"/><path d="M4 20h16"/></svg></div>`}
+        return `
+          <div class="ms-panel" id="tier-panel-${slug}" data-panel="${slug}" role="tabpanel" aria-labelledby="tier-tab-${slug}">
+            <div class="ms-hero">
+              <figure class="ms-photo">
+                <img src="${tierPhoto(tier.slug)}" alt="" width="800" height="800" decoding="async" onerror="this.onerror=null;this.src='/images/membership-woman.webp'" />
+              </figure>
+              <p class="ms-hero-title">Your everyday, <em>elevated.</em></p>
+              <div class="ms-card mc-${slug}" role="img" aria-label="Le Meow Club ${name} member card">
+                <div class="ms-card-top">
+                  <span class="ms-card-brand">Le Meow · <i>Club</i></span>
+                  ${tier.slug === "diamond" ? cardIcons.diamond : cardIcons.crown}
+                </div>
+                <div class="ms-card-name">${name}</div>
+                <div class="ms-card-meta">${minSpend > 0 ? "Member · Valid for 12 months" : "Member"}</div>
+                ${cardSprig}
               </div>
-              <div class="tc-benefits">
-                ${benefits
-                  .map(
-                    (b) => `
-                  <div class="tc-b">
-                    ${benefitIcons[b.icon] || benefitIcons.tag}
-                    <b>${b.title}</b>
-                    <span>${b.desc}</span>
-                  </div>
-                `,
-                  )
-                  .join("")}
+            </div>
+            <div class="ms-body">
+              <div class="ms-summary">
+                <h3 class="ms-title">${name} membership</h3>
+                <p class="ms-qualify">${qualify}</p>
+                ${sub}
+                <hr class="ms-rule" />
               </div>
-            </div>`;
+              <div class="ms-privileges">
+                <h4 class="ms-sub">Your privileges</h4>
+                <ul class="ms-list">${privileges}
+                </ul>
+                ${note}
+                ${renderActions()}
+              </div>
+            </div>
+          </div>`;
+      }
+
+      // Rows of the Benefits Comparison table. Each returns true (included),
+      // a string (the value), or a falsy value (not included). Rows that no
+      // tier has are left out.
+      function formatCutoff(time) {
+        if (!time) return "";
+        const [h, m] = String(time).split(":").map((x) => parseInt(x, 10) || 0);
+        const hour = h % 12 || 12;
+        return `${hour}${m ? ":" + String(m).padStart(2, "0") : ""} ${h < 12 ? "am" : "pm"}`;
+      }
+      const comparisonRows = [
+        { label: "Member-only deals", icon: "tag", value: (t) => !!t.has_member_only_deals },
+        { label: "Extra discounts", icon: "percent", value: (t) => num(t.blanket_discount_percent) > 0 && `Up to ${num(t.blanket_discount_percent)}% off` },
+        { label: "Monthly coupons", icon: "ticket", value: (t) => { const n = parseInt(t.monthly_coupon_count, 10) || 0; return n > 0 && `${n} per month`; } },
+        { label: "Birthday reward", icon: "gift", value: (t) => num(t.birthday_voucher_amount) > 0 && `${formatSgd(t.birthday_voucher_amount)} eVoucher` },
+        {
+          label: "Referral bonus",
+          icon: "userPlus",
+          value: (t) => {
+            if (t.referral_bonus_type === "percent" || t.referral_bonus_type === "percentage") {
+              return num(t.referral_bonus_percent) > 0 && `${num(t.referral_bonus_percent)}% bonus`;
+            }
+            return num(t.referral_bonus_amount) > 0 && `${formatSgd(t.referral_bonus_amount)} bonus`;
+          },
+        },
+        { label: "Free cancellation", icon: "check", value: (t) => { const h = parseInt(t.free_cancellation_hours, 10) || 0; return h > 0 && `Up to ${h} hours before`; } },
+        { label: "Same-day booking", icon: "clock", value: (t) => !!t.allow_same_day_booking && (formatCutoff(t.booking_cutoff_time) ? `Book by ${formatCutoff(t.booking_cutoff_time)}` : true) },
+        { label: "Priority booking", icon: "bolt", value: (t) => !!t.priority_booking_level && t.priority_booking_level !== "none" },
+        { label: "Early access", icon: "star", value: (t) => !!t.has_early_access },
+        { label: "Exclusive promotions", icon: "sparkle", value: (t) => t.promotions_text || false },
+        { label: "Concierge chat", icon: "chat", value: (t) => !!t.has_concierge_chat },
+        { label: "Customer support", icon: "support", value: (t) => t.support_card_title || "Standard support" },
+        { label: "Staff selection", icon: "person", value: (t) => !!t.allow_staff_selection },
+        { label: "Special experiences", icon: "sparkle", value: (t) => t.special_experiences_text || false },
+        { label: "Black-only surprises", icon: "gift", value: (t) => !!t.has_black_only_surprises },
+      ];
+
+      function renderComparison(tiers) {
+        const table = document.getElementById("tierCompare");
+        if (!table) return;
+        const cell = (v) => (v === true ? checkMark : v ? `<span class="b-val">${escapeHtml(v)}</span>` : notIncluded);
+
+        const head = tiers
+          .map((t) => {
+            const min = num(t.min_spend);
+            const icon = t.slug === "diamond" ? cardIcons.diamond : cardIcons.crown;
+            return `<th scope="col" class="col-tier col-${escapeHtml(t.slug)}">
+                      <span class="b-tier mc-${escapeHtml(t.slug)}">${icon.replace(/width="20" height="20"/, 'width="14" height="14"')}${escapeHtml(t.name)}</span>
+                      <span class="b-tier-min">${min > 0 ? `${formatSgd(min)} spend` : "Free to join"}</span>
+                    </th>`;
           })
           .join("");
 
-        const tierBtns = tierNav.querySelectorAll(".tier-btn");
-        const panels = tierStage.querySelectorAll(".tier-card");
-        tierBtns.forEach(function (btn) {
-          btn.addEventListener("click", function () {
-            var t = btn.dataset.tier;
-            tierBtns.forEach(function (b) {
-              b.setAttribute("aria-selected", b === btn);
-            });
-            panels.forEach(function (p) {
-              var on = p.dataset.panel === t;
-              p.classList.toggle("active", on);
-              if (on) {
-                p.removeAttribute("hidden");
-              } else {
-                p.setAttribute("hidden", "");
-              }
-            });
+        const body = comparisonRows
+          .map((row) => ({ row, values: tiers.map(row.value) }))
+          .filter(({ values }) => values.some(Boolean))
+          .map(
+            ({ row, values }) => `
+                  <tr>
+                    <th scope="row" class="col-privilege"><span class="privilege-item">${(privilegeIcons[row.icon] || "").replace(/width="24" height="24"/, 'width="18" height="18"')}${escapeHtml(row.label)}</span></th>
+                    ${values.map((v, i) => `<td class="col-tier col-${escapeHtml(tiers[i].slug)}">${cell(v)}</td>`).join("")}
+                  </tr>`,
+          )
+          .join("");
+
+        table.innerHTML = `
+                <caption class="sr-only">Privileges included in each Le Meow membership tier</caption>
+                <colgroup><col class="c-privilege" />${tiers.map(() => "<col />").join("")}</colgroup>
+                <thead><tr><th scope="col" class="col-privilege">Privileges</th>${head}</tr></thead>
+                <tbody>${body}</tbody>`;
+      }
+
+      function renderMembership(tiers, keepSlug) {
+        const tierNav = document.getElementById("tierNav");
+        const tierStage = document.getElementById("tierStage");
+        if (!tierNav || !tierStage || !tiers.length) return;
+
+        tierNav.style.setProperty("--n", tiers.length);
+        tierNav.innerHTML = tiers
+          .map((tier) => {
+            const slug = escapeHtml(tier.slug);
+            return `<button type="button" class="tier-btn" role="tab" id="tier-tab-${slug}" aria-controls="tier-panel-${slug}" data-tier="${slug}">${escapeHtml(tier.name)}</button>`;
+          })
+          .join("");
+        tierStage.innerHTML = tiers.map(renderTierPanel).join("");
+        renderComparison(tiers);
+
+        const tierBtns = Array.from(tierNav.querySelectorAll(".tier-btn"));
+        const panels = Array.from(tierStage.querySelectorAll(".ms-panel"));
+
+        function selectTier(btn, focus) {
+          tierBtns.forEach((b) => {
+            const on = b === btn;
+            b.setAttribute("aria-selected", on);
+            b.tabIndex = on ? 0 : -1;
           });
-          btn.addEventListener("keydown", function (ev) {
-            if (ev.key === "ArrowRight" || ev.key === "ArrowLeft") {
-              var arr = Array.prototype.slice.call(tierBtns);
-              var idx = arr.indexOf(btn) + (ev.key === "ArrowRight" ? 1 : -1);
-              if (idx < 0) idx = arr.length - 1;
-              if (idx >= arr.length) idx = 0;
-              arr[idx].focus();
-              arr[idx].click();
-            }
+          panels.forEach((p) => {
+            const on = p.dataset.panel === btn.dataset.tier;
+            p.classList.toggle("is-active", on);
+            p.inert = !on;
+            p.setAttribute("aria-hidden", on ? "false" : "true");
+            p.tabIndex = on ? 0 : -1;
+          });
+          if (focus) btn.focus();
+        }
+
+        tierBtns.forEach((btn, idx) => {
+          btn.addEventListener("click", () => selectTier(btn, false));
+          btn.addEventListener("keydown", (ev) => {
+            let target = null;
+            if (ev.key === "ArrowRight") target = (idx + 1) % tierBtns.length;
+            else if (ev.key === "ArrowLeft") target = (idx - 1 + tierBtns.length) % tierBtns.length;
+            else if (ev.key === "Home") target = 0;
+            else if (ev.key === "End") target = tierBtns.length - 1;
+            if (target === null) return;
+            ev.preventDefault();
+            selectTier(tierBtns[target], true);
           });
         });
+
+        selectTier(tierBtns.find((b) => b.dataset.tier === keepSlug) || tierBtns[0], false);
+      }
+
+      function prepareTiers(list) {
+        return (list || [])
+          .filter((t) => t && t.is_active !== false)
+          .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+      }
+
+      // Draw straight away from the built-in copy so the section has its final
+      // size on first paint, then redraw only if the live data differs.
+      (async () => {
+        const initial = prepareTiers(fallbackTiers);
+        renderMembership(initial);
+        const live = prepareTiers(await fetchMembershipTiers());
+        const signature = (list) => JSON.stringify(list.map((t) => [t.slug, t.name, t.min_spend, comparisonRows.map((r) => r.value(t)), getPrivileges(t, 0, [t])]));
+        if (live.length && signature(live) !== signature(initial)) {
+          const current = document.querySelector('#tierNav .tier-btn[aria-selected="true"]');
+          renderMembership(live, current && current.dataset.tier);
+        }
       })();
     </script>
     <script src="contact.js"></script>
