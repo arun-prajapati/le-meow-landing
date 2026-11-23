@@ -1,12 +1,18 @@
+# Unknown URLs get a real 404 page instead of the homepage (SEO audit P0)
+ErrorDocument 404 /404.html
+
 # Serve apple-app-site-association without .json extension
 <IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteRule ^\.well-known/apple-app-site-association$ .well-known/apple-app-site-association.json [L,T=application/json]
+    RewriteEngine On
+    RewriteRule ^\.well-known/apple-app-site-association$ .well-known/apple-app-site-association.json [L,T=application/json]
+
+    # One URL per legal page (SEO audit): the folder copies 301 to the .html URL in the sitemap
+    RewriteRule ^(privacy-policy|terms-and-conditions)/?(index\.html)?$ /$1.html [R=301,L]
 </IfModule>
 
 # Set correct Content-Type for deep-link files
 <IfModule mod_headers.c>
-    <FilesMatch "^(apple-app-site-association(?:\.json)?|assetlinks\.json)$">
-        Header set Content-Type "application/json"
-    </FilesMatch>
+    <FilesMatch "^(apple-app-site-association(?:\.json)?|assetlinks\.json)$">
+        Header set Content-Type "application/json"
+    </FilesMatch>
 </IfModule>

@@ -20,7 +20,7 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta
       name="description"
-      content="Discover services, book appointments, earn membership rewards, use your wallet, send gift vouchers and explore more with Le Meow — Singapore's lifestyle ecosystem app."
+      content="Discover services, book appointments, earn membership rewards, use your wallet and send gift vouchers with Le Meow, Singapore's lifestyle ecosystem app."
     />
     <meta
       property="og:title"
@@ -34,12 +34,60 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "MobileApplication",
-        "name": "Le Meow",
-        "operatingSystem": "iOS, Android",
-        "applicationCategory": "LifestyleApplication",
-        "description": "Discover services, book appointments, earn membership rewards, use your wallet and send gift vouchers with Le Meow.",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "SGD" }
+        "@graph": [
+          {
+            "@type": "MobileApplication",
+            "@id": "https://lemeow.meowadvancedintelligence.com/#app",
+            "name": "Le Meow",
+            "operatingSystem": "iOS, Android",
+            "applicationCategory": "LifestyleApplication",
+            "description": "Discover services, book appointments, earn membership rewards, use your wallet and send gift vouchers with Le Meow.",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "SGD"
+            },
+            "installUrl": [
+              "https://apps.apple.com/sg/app/le-meow/id6763483119",
+              "https://play.google.com/store/apps/details?id=com.meow.lemeow"
+            ],
+            "publisher": {
+              "@id": "https://lemeow.meowadvancedintelligence.com/#organization"
+            }
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://lemeow.meowadvancedintelligence.com/#organization",
+            "name": "Le Meow",
+            "url": "https://lemeow.meowadvancedintelligence.com/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://lemeow.meowadvancedintelligence.com/icon-192.png",
+              "width": 192,
+              "height": 192
+            },
+            "areaServed": "Singapore",
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "SG"
+            },
+            "parentOrganization": {
+              "@type": "Organization",
+              "name": "Meow Advanced Intelligence",
+              "url": "https://meowadvancedintelligence.com/"
+            }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://lemeow.meowadvancedintelligence.com/#website",
+            "url": "https://lemeow.meowadvancedintelligence.com/",
+            "name": "Le Meow",
+            "inLanguage": "en-SG",
+            "publisher": {
+              "@id": "https://lemeow.meowadvancedintelligence.com/#organization"
+            }
+          }
+        ]
       }
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -2181,6 +2229,31 @@
       .foot nav a:hover {
         color: var(--deep-gold);
       }
+      .foot-family {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px 20px;
+        margin-top: 26px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .foot-family span {
+        font-weight: 500;
+        color: var(--ink);
+      }
+      .foot-family a {
+        transition: color 0.18s ease-out;
+      }
+      .foot-family a:hover {
+        color: var(--deep-gold);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .foot-family a {
+          transition: none;
+        }
+      }
       .foot small {
         font-size: 12.5px;
         color: var(--muted);
@@ -2658,12 +2731,14 @@
     </script>
       <meta property="og:site_name" content="Le Meow" />
     <meta property="og:locale" content="en_SG" />
-    <meta property="og:image" content="https://lemeow.meowadvancedintelligence.com/images/logo.png" />
+    <meta property="og:image" content="https://lemeow.meowadvancedintelligence.com/images/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Le Meow" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Le Meow | Discover, Book &amp; Earn Rewards" />
-    <meta name="twitter:description" content="Discover services, book appointments, earn membership rewards, use your wallet, send gift vouchers and explore more with Le Meow — Singapore's lifestyle ecosystem app." />
-    <meta name="twitter:image" content="https://lemeow.meowadvancedintelligence.com/images/logo.png" />
+    <meta name="twitter:description" content="Discover services, book appointments, earn membership rewards, use your wallet and send gift vouchers with Le Meow, Singapore's lifestyle ecosystem app." />
+    <meta name="twitter:image" content="https://lemeow.meowadvancedintelligence.com/images/og-image.png" />
     <link rel="canonical" href="https://lemeow.meowadvancedintelligence.com/" />
     <meta property="og:url" content="https://lemeow.meowadvancedintelligence.com/" />
   </head>
@@ -2671,7 +2746,7 @@
     <!-- ══════════ NAV ══════════ -->
     <header class="nav" id="nav">
       <div class="nav-in">
-        <a href="#top" class="logo script" aria-label="Le Meow home">
+        <a href="/" class="logo script" aria-label="Le Meow home">
           <!-- <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 9l2-5 3.5 3h5L18 4l2 5c1 5-2 11-8 11S3 14 4 9z"/><circle cx="9.5" cy="12" r=".7" fill="currentColor"/><circle cx="14.5" cy="12" r=".7" fill="currentColor"/></svg>
       Le Meow -->
           <img src="images/logo.png" alt="Le Meow" class="logo-img" />
@@ -3998,8 +4073,20 @@
             <a href="/meow-solutions/">Meow Solutions</a>
             <a href="#contact">Contact</a>
             <a href="#download">Download</a>
-            <a href="privacy-policy.html">Privacy Policy</a>
-            <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+            <a href="/privacy-policy.html">Privacy Policy</a>
+            <a href="/terms-and-conditions.html">Terms &amp; Conditions</a>
+          </nav>
+          <nav class="foot-family" aria-label="Meow family">
+            <span>Meow family</span>
+            <a href="https://meowadvancedintelligence.com/">MEOWAI</a>
+            <a href="https://meowdevs.meowadvancedintelligence.com/">Meow Devs</a>
+            <a href="https://ledestin.meowadvancedintelligence.com/">Le Destin</a>
+            <a href="https://luxury.meowadvancedintelligence.com/">Meow Luxury</a>
+            <a href="https://meowrenovations.com/">Meow Renovations</a>
+            <a href="https://surehandagency.com/">SureHands Agency</a>
+            <a href="https://meowtampines.com/">Meow Tampines</a>
+            <a href="https://meowaesthetics.com/">Meow Aesthetics</a>
+            <a href="https://meowfuturelabs.com/">Meow Future Labs</a>
           </nav>
           <small>© 2026 Le Meow · Part of the Meow ecosystem · Singapore</small>
         </div>

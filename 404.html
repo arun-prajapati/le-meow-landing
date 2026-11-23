@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page not found | Le Meow</title>
+    <meta name="description" content="This page could not be found. Go back to the Le Meow homepage." />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Jost:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --paper: #ffffff;
+        --cream: #fbf6eb;
+        --line: #e9decb;
+        --ink: #1e160e;
+        --muted: #685d50;
+        --gold: #8b5c1c;
+        --gold-fill: #e3c77f;
+        --gold-fill-hover: #d9b866;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      body {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 18px;
+        background: var(--cream);
+        color: var(--ink);
+        font: 400 16px/1.55 "Jost", system-ui, sans-serif;
+      }
+      main {
+        width: 100%;
+        max-width: 560px;
+        text-align: center;
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        padding: 48px 26px;
+      }
+      img {
+        width: 96px;
+        height: 96px;
+        border-radius: 22px;
+      }
+      .eyebrow {
+        margin-top: 24px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+      h1 {
+        margin-top: 8px;
+        font: 600 clamp(42px, 8vw, 56px) / 1 "Cormorant Garamond", serif;
+        letter-spacing: -0.035em;
+        text-wrap: balance;
+      }
+      h1 em {
+        color: var(--gold);
+      }
+      p.lede {
+        margin-top: 14px;
+        color: var(--muted);
+        text-wrap: pretty;
+      }
+      .actions {
+        margin-top: 28px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+      }
+      .actions a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 22px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        color: var(--ink);
+        text-decoration: none;
+        transition: background-color 0.18s ease-out, border-color 0.18s ease-out;
+      }
+      .actions a.primary {
+        background: var(--gold-fill);
+        border-color: var(--gold-fill);
+      }
+      .actions a.primary:hover {
+        background: var(--gold-fill-hover);
+        border-color: var(--gold-fill-hover);
+      }
+      .actions a:not(.primary):hover {
+        border-color: var(--gold);
+      }
+      .actions a:focus-visible {
+        outline: 2px solid var(--gold);
+        outline-offset: 3px;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .actions a {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <a href="/" aria-label="Le Meow home"><img src="/images/logo.png" alt="Le Meow" width="96" height="96" /></a>
+      <p class="eyebrow">Error 404</p>
+      <h1>Page <em>not found</em></h1>
+      <p class="lede">The page you were looking for doesn’t exist or has moved.</p>
+      <div class="actions">
+        <a class="primary" href="/">Back to homepage</a>
+        <a href="/meow-solutions/">Meow Solutions</a>
+        <a href="/#contact">Contact</a>
+      </div>
+    </main>
+  </body>
+</html>
